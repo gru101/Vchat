@@ -8,7 +8,7 @@ https://docs.djangoproject.com/en/5.0/howto/deployment/asgi/
 """
 
 import os
-
+import django
 from django.core.asgi import get_asgi_application
 from channels.routing import ProtocolTypeRouter, URLRouter
 from django.urls import re_path, path
@@ -17,6 +17,7 @@ from channels.security.websocket import AllowedHostsOriginValidator
 from Vchat.routing import websocket_urlpatterns
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Vchat.settings')
+django.setup()
 
 application = get_asgi_application()
 
