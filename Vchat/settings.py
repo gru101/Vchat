@@ -28,8 +28,8 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # DEBUG = os.getenv("DEBUG") == "True"
 DEBUG = False
 
-ALLOWED_HOSTS = [str(os.environ.get("ALLOWED_HOSTS"))]
-CSRF_TRUSTED_ORIGINS = [str(os.environ.get("CSRF_TRUSTED_ORIGINS"))]
+ALLOWED_HOSTS = ['vchat-rq33.onrender.com']
+CSRF_TRUSTED_ORIGINS = ['https://vchat-rq33.onrender.com']
 # Application definition
 
 INSTALLED_APPS = [
