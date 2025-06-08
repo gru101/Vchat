@@ -34,15 +34,15 @@ ALLOWED_HOSTS = str(os.environ.get("ALLOWED_HOSTS")).split(",")
 
 INSTALLED_APPS = [
     'daphne',
-    'channels',
-    'channels_redis',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'channels',
+    'channels_redis',
+    
     'user.apps.UserConfig',
 ]
 
