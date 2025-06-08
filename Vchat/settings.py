@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = False
 
 ALLOWED_HOSTS = str(os.environ.get("ALLOWED_HOSTS")).split(",")
-
+CSRF_TRUSTED_ORIGINS = str(os.environ.get("CSRF_TRUSTED_ORIGINS")).split(",")
 # Application definition
 
 INSTALLED_APPS = [
