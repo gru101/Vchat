@@ -1,0 +1,232 @@
+:root {
+  --primary-color: #4F46E5;
+  --accent-color: #38BDF8;
+  --background-color: #F9FAFB;
+  --card-color: #E5E7EB;
+  --text-primary: #1F2937;
+  --text-secondary: #6B7280;
+  --success-color: #10B981;
+  --error-color: #EF4444;
+  --hover-color: #6366F1;
+
+  --font-size-h1: 36px;             /* App title */
+  --font-size-h2: 24px;             /* Section titles */
+  --font-size-button: 16px;          /* Buttons */
+  --font-size-regular: 16px;         /* Regular text */
+  --font-size-small: 14px;           /* Timestamps, tooltips */
+  
+  /* Font Weights */
+  --font-weight-bold: 700;
+  --font-weight-semibold: 600;
+  --font-weight-regular: 400;
+}
+
+/* @media (min-width: 427px) { */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    background-color: #f5f5f5;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;  
+    background: #fff;
+    padding: 2rem;
+    margin: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 320px;
+  }
+
+  .error-message{
+    color: var(--error-color);
+    font-size: small;
+  }
+
+  .success-message{
+    color: var(--success-color);
+    font-size: small;
+  }
+  
+  #registerForm{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;  
+  }
+
+  .PasswordChecks {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;  
+    align-content: justify;
+    width: 100%;
+    gap: 5px;
+    margin-bottom: 1rem;
+    text-align: justify;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  
+  input[type="text"]:focus,
+  input[type="password"]:focus {
+    border-color: #4f46e5;
+  }
+  
+  button {
+    width: 100%;
+    padding: 0.75rem;
+    background: #4f46e5;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  button:hover {
+    background: #4338ca;
+  }
+  
+  .link {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+  
+  .link a {
+    color: #4f46e5;
+    text-decoration: none;
+  }
+
+  .Show {
+    display: none;
+  }
+  
+
+/* 
+@media (max-width: 427px) {
+  body {
+      background-color: #f5f5f5;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    
+    .form-container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      width: 320px;
+    }
+    
+    #registerForm{
+      width: 100%;
+      margin: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;  
+    }
+  
+    .PasswordChecks {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .error-message{
+      color: var(--error-color);
+      font-size: var(--font-size-small);
+    }
+    
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+      color: #333;
+    }
+    
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      border-color: #4f46e5;
+    }
+    
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      background: #4f46e5;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    
+    button:hover {
+      background: #4338ca;
+    }
+    
+    .link {
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    
+    .link a {
+      color: #4f46e5;
+      text-decoration: none;
+    }
+
+    .Show {
+      display: none;
+    }
+} */

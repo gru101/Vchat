@@ -1,0 +1,166 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Home</title>
+        <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    </head>
+
+    <body>
+        <div class="Invitations Hide" >
+            <div class="Topbar">
+                <img src="{% static 'img/x.svg' %}" alt="" id="closeInvitations">
+                <p>Invitations</p>
+            </div>
+            
+            <div class="InvitationList">
+                {% if Invitations %}
+                    {% for invitation in Invitations %}
+                        <form class="Invitation" id="{{ invitation.username}}_invitation">
+                            <div class="Info">
+                                <p>{{ invitation.first_name }} {{ invitation.last_name }}</p>
+                                <p>{{ invitation.username }} </p>
+                            </div>
+                            <input type="hidden" name="sender_username" value="{{ invitation.username }}">
+                            <button type="submit" name="action" value="Accept">
+                                <img src="{% static 'img/check_square.svg' %}" alt="Accept">
+                            </button>
+                            <button type="submit" name="action" value="Reject">
+                                <img src="{% static 'img/x_square.svg' %}" alt="Reject">
+                            </button>
+                        </form>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+        </div>
+
+        <div class="AccountDetails Hide">
+            <dialog id="deleteAccountDialog">
+                <form id="deleteAccountForm" action="{% url 'delete_account' %}" method="post">
+                    {% csrf_token %}
+                    <p>Are you sure you want delete your account ?</p>
+                    <div class="Buttons">
+                        <button type="submit" id="deleteAccountConfirm">Yes</button>
+                        <button type="button" id="deleteAccountCancel">No</button>
+                    </div>
+                </form>
+            </dialog>
+
+            <dialog id="logoutAccountDialog">
+                <form id="logoutAccountForm" action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <p>Are you sure you want logout ?</p>
+                    <div class="Buttons">
+                        <button type="submit" id="logoutAccountConfirm">Yes</button>
+                        <button type="button" id="logoutAccountCancel">No</button>
+                    </div>
+                </form>
+            </dialog>
+
+            <div class="Topbar">
+                <img src="{% static 'img/x.svg' %}" alt="" id="closeAccountDetails">
+                <p>Account Details</p>
+            </div>
+
+            <div class="Info">
+                {% if user %}
+                    <p>{{ user.first_name}}  {{ user.last_name }}</p>
+                    <p id="username_and_id">{{ user.username }}</p>
+                {% endif %}
+            </div>
+
+            <div id="deleteAccountButton">
+                <img src="{% static 'img/trash.svg' %}" alt="Delete Account">
+                <p>Delete Account</p>
+            </div>
+    
+            <div id="logoutAccountButton">
+                <img src="{% static 'img/logout.svg' %}" alt="logout Account">
+                <p>Logout</p>
+            </div>
+  
+        </div>
+
+        <div class="AddFriend Hide">
+            <div class="Topbar">
+                <img src="{% static 'img/x.svg' %}" alt="" id="closeAddFriend">
+                <p>Add Friend</p>
+            </div>
+
+            <form id="searchFriendForm">
+                {% csrf_token %}
+                <button type="submit" id="searchFriendButton">
+                    <img src="{% static 'img/search.svg' %}" alt="">
+                </button>
+                <input type="text" id="searchFriend" name="FriendID" placeholder="Enter Username">
+            </form>
+
+            <div class="Results">
+
+            </div>
+
+        </div>
+
+        <div class="Main">
+            <div class="SideBar">
+                <img src="{% static 'img/user.svg' %}" alt="" id="user">
+                <img src="{% static 'img/user_plus.svg' %}" alt="" id="addFriend">
+                <img src="{% static 'img/inbox.svg' %}" alt="" id="invitationsButton">
+                <img src="{% static 'img/friends.svg' %}" alt="" id="friendsButton">
+            </div>
+
+            <div class="Menus Hide">
+
+            </div>
+
+            <div class="FriendList">
+                <!-- <div class="FindFriend">
+                    <img src="{% static 'img/search-interface-symbol.png' %}" alt="">
+                    <input type="text" placeholder="Find a friend...">
+                </div> -->
+
+                {% for friend in AcceptedFriends %}
+                    <form class="Friend">
+                        <div class="Info">
+                            <p> {{ friend.first_name }} {{ friend.last_name }}</p>
+                            <p> {{ friend.username }}</p>
+                        </div>
+                        <input type="hidden" name="username" value= {{ friend.username }}>
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">  
+                        <button class="callButton" id={{ friend.id }} type="submit">
+                            <img src="{% static 'img/video.svg' %}" alt="">
+                        </button>
+                    </form>
+                {% endfor %}
+            </div>
+
+            <dialog id="incomingCallDialog" class="call-dialog">
+                <div class="dialog-content">
+                    <p>Incoming call from <span id="callerName"></span></p>
+                    <div class="call-buttons">
+                        <button id="acceptCall" class="btn-accept">Accept</button>
+                        <button id="rejectCall" class="btn-reject">Reject</button>
+                    </div>
+                </div>
+            </dialog>
+
+            <div class="CallSection Hide">
+                <video id="remoteVideo" autoplay playsinline>This is the local video</video>
+                <video id="localVideo" autoplay playsinline></video>
+                <div class="CallControls Hide">
+                    <button id="endcall"> <img src="{% static 'img/cut_call.svg' %}" alt="End Call"> </button>
+                    <button id="mic"> <img src="{% static 'img/mic.svg' %}" alt="Mic"> </button>
+                    <button id="camera"> <img src="{% static 'img/camera.svg' %}" alt="Camera"> </button>
+                </div>
+            </div>
+
+        </div>
+
+        <script src="{% static 'js/home.js' %}">
+                const SAMPLE_VIDEO_URL = "{% static 'video/sample.mp4' %}";
+        </script>
+    </body>
+</html>

@@ -1,0 +1,698 @@
+:root {
+    --primary-color: #4F46E5;
+    --accent-color: #38BDF8;
+    --background-color: #F9FAFB;
+    --card-color: #E5E7EB;
+    --text-primary: #1F2937;
+    --text-secondary: #6B7280;
+    --success-color: #10B981;
+    --error-color: #EF4444;
+    --hover-color: #6366F1;
+
+    --font-size-h1: 36px;             /* App title */
+    --font-size-h2: 24px;             /* Section titles */
+    --font-size-button: 16px;          /* Buttons */
+    --font-size-regular: 16px;         /* Regular text */
+    --font-size-small: 14px;           /* Timestamps, tooltips */
+    
+    /* Font Weights */
+    --font-weight-bold: 700;
+    --font-weight-semibold: 600;
+    --font-weight-regular: 400;
+  }
+
+.online-status {
+    font-weight: 500;
+    font-size: 0.9em;
+}
+
+.online-status.online {
+    color: var(--success-color) !important; /* Using !important to override any media query styles */
+}
+
+.online-status.offline {
+    color: var(--error-color) !important; /* Using !important to override any media query styles */
+}
+
+
+/* This matches for Desktop */
+@media (min-width: 427px ){
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: 'Poppins', sans-serif;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+    }
+    
+    body ::-webkit-scrollbar {
+        width: 0.0rem;
+    }
+
+    body img {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    dialog {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 1em;
+        border: none;
+      }
+
+    input {
+        width: 100%;
+        box-sizing: border-box;
+        border-width: 0px;
+        border-radius: 5px;
+    }
+
+    input:focus {
+        outline: 2px solid var(--primary-color);
+    }
+    
+    button {
+        background-color: rgba(255, 255, 255, 0);
+        border-width: 0px;
+    }
+
+    video {
+        height: 100%;
+        width: 100%;
+        transform: rotateY(180deg);
+        background: rgba(0, 0, 0, 0.2);   
+    }
+
+    .call-dialog {
+        padding: 20px;
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    
+    .call-dialog::backdrop {
+        background: rgba(0,0,0,0.5);
+    }
+    
+    .dialog-content {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .Main {
+        padding: 1%;
+        margin: 1rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
+    }
+    
+    .SideBar {
+        align-self: flex-start;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 2.5rem;
+        padding: 1rem;
+        padding-right: 2rem;
+        gap: 1rem;
+        border-radius: 5px 0px 0px 5px;
+    }
+    
+    .FindFriend {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    .SideBar img {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+    
+    .FriendList {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+        width: 15rem;
+        height: 100%;
+        overflow-y: scroll;
+        z-index: 0;
+        border:  rgb(243, 243, 243) 4px solid;
+        border-radius: 5px 0px 0px 5px;
+    }
+
+    .Menus {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+        width: 15rem;
+        height: 100%;
+        overflow-y: scroll;
+        background-color: white;
+        z-index: 1;
+        border:  rgb(243, 243, 243) 4px solid;
+        border-radius: 5px 0px 0px 5px;
+    }
+
+    .Friend {
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: #6B7280 0.5px solid;
+    }
+    
+    .Friend img {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    .Info {
+        font-size: 0.7rem;
+        color: black;
+        letter-spacing: 0.7px;
+    }
+
+    .Info >*:nth-child(1) {
+        font-weight: var(--font-weight-semibold);
+        color: var(--text-primary);
+    }
+    
+    .CallControls {
+        display: flex;
+        justify-self: center;
+        align-self: center;
+        position: relative;
+        bottom: 2rem;
+        gap: 2rem;
+    }
+
+    .AddFriend {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .Results {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        width: 100%;
+    }
+
+    .Result {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 0.5rem;
+        border-bottom: #6B7280 0.5px solid;
+    }
+
+    .CallSection {
+        background-color:  rgb(243, 243, 243);
+        padding: 2.5px;
+        gap: 3px;
+        width: 40rem;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        border-radius: 0px 5px 5px 0px;
+    }
+
+    #localVideo {
+        position: relative;
+        align-self: baseline;
+        justify-self: baseline;
+        height: 50%;
+        width: 100%;
+        background-color: #10b98100;
+        border-radius: 5px;
+        border: 2px solid #10B981;
+    }
+
+    #remoteVideo {
+        position: relative;
+        align-self: baseline;
+        justify-self: baseline;
+        height: 50%;
+        width: 100%;
+        background-color: #ffad7600;  
+        border-radius: 5px; 
+        border: 2px solid #ffad76;
+    }
+
+    .AccountDetails {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        gap: 0.7rem;
+        letter-spacing: 0.8px;
+        font-size: var(--font-size-small);
+    }
+
+    #closeAccountDetails {
+        align-self: flex-end;
+        margin: 0.5rem;
+    }
+
+    #deleteAccountButton, #logoutAccountButton{
+        color: var(--error-color);
+        font-size: var(--font-size-small);
+        font-weight: var(--font-weight-bold);
+        background-color: white;
+        border-width: 0px;
+        display: flex;
+    }
+
+    .deleteAccountDialog{
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5); /* dark background */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .Invitations {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+        height: 100%;
+        overflow-y: scroll;
+    }
+
+    .Invitation {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        align-items: center;
+        padding: 0.5rem;
+        border-bottom: #6B7280 0.5px solid;
+        font-size: var(--font-size-small);
+    }
+
+    .InvitationList {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+        height: 100%;
+        overflow-y: scroll;
+    }
+
+    .Buttons {
+        display: flex;
+        gap: 1rem;
+        font-weight: var(--font-weight-bold);
+    }
+
+    .Buttons > *:nth-child(1) {
+        color: var(--success-color);
+    }
+
+    .Buttons > *:nth-child(2) {
+        color: var(--error-color);
+    }
+
+    .Topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .Topbar p {
+        color: var(--primary-color);
+        font-weight: var(--font-weight-bold);
+    }
+
+    #searchFriendForm {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+        align-self: baseline;
+        margin-top: 1rem;
+    }
+
+    #searchFriendForm button {
+        background-color: rgba(255, 255, 255, 0);
+        border-width: 0px;
+    }
+
+    #searchFriendButton {
+        overflow: hidden;
+    }
+
+    .Hide {
+        display: None;
+    }
+}
+
+/* This matches for phones */
+@media (max-width: 427px) {
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+    }
+
+    body ::-webkit-scrollbar {
+        width: 0.0rem;
+    }
+
+    .Main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: start;
+        width: 100%;
+        height: 100%;
+    }
+
+    dialog {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 1em;
+        border: none;
+        border-radius: 8px;
+        border: 2px var(--accent-color) solid;
+      }
+
+    button{
+        border-width: 0px;
+        background-color: rgba(255, 255, 255, 0);
+    }
+
+    .call-dialog {
+        padding: 20px;
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .call-dialog::backdrop {
+        background: rgba(0,0,0,0.5);
+    }
+
+    .dialog-content {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .SideBar {
+        width: 100%;
+        height: 2.5rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 1rem;
+        gap: 1rem;
+        border-radius: 5px 5px 0px 0px;
+    }
+
+    .Topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .Topbar p {
+        color: var(--primary-color);
+        font-weight: var(--font-weight-bold);
+    }
+
+    .FriendList {
+        display: flex;
+        flex-direction: column;
+        padding: 0.5rem;
+        width: 100%;
+        height: 100%;
+        overflow-y: scroll;
+    }
+
+    .FriendList p {
+        font-size: var(--font-size-small);
+        font-weight: var(--font-weight-regular);
+    }
+
+    .FindFriend {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border-radius: 5px;
+        justify-content: space-between;
+        width: 100%;
+        padding: 0.5rem;
+        background-color: var(--card-color);
+        margin-bottom: 10px;
+    }
+
+    .FindFriend input {
+        border: 0px;
+        padding: 5px;
+        width: 100%;
+        background-color: var(--card-color);
+    }
+
+    .Friend {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        letter-spacing: 0.7px;
+        padding: 0.5rem;
+        border-bottom: #6B7280 0.5px solid;
+    }
+
+    .Status {
+        color: var(--success-color);
+        margin-top: 0.5rem;
+    }
+    
+    .Info :first-child{
+        font-weight: var(--font-weight-semibold);
+        color: var(--text-primary);
+    }
+    
+    .CallSection {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgb(243, 243, 243);
+        display: flex;
+        flex-direction: column;
+        z-index: 1000;
+    }
+
+    .CallControls {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 2rem;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 1rem;
+        border-radius: 25px;
+        z-index: 1001;
+    }
+
+    #localVideo, #remoteVideo {
+        height: 50%;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .Buttons {
+        display: flex;
+        gap: 4rem;
+    }
+
+    .Buttons button{
+        border-width: 0px;
+        background-color: rgba(255, 255, 255, 0);
+    }
+
+    .AddFriend {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        width: 100%;
+        height: 100%;
+        padding: 1rem;
+    }
+
+    .AddFriend input {
+        margin: 0.5rem;
+        border-radius: 5px;
+        padding: 0.5rem;
+        border-width: 0px;
+    }
+
+    #searchFriend:focus {
+        outline: 2px solid var(--accent-color);
+    }
+
+    #searchFriendForm {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        width: fit-content;
+        align-self: baseline;
+        margin-top: 1rem;
+    }
+
+    #searchFriendForm button {
+        background-color: rgba(255, 255, 255, 0);
+        border-width: 0px;
+    }
+
+    .Result {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        border-bottom: #6B7280 0.5px solid;
+    }
+
+    .Result button {
+        background-color: #10b98100;
+        border-width: 0px;
+    }
+
+    .Results {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    } 
+
+    .AccountDetails {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        gap: 0.7rem;
+        padding: 1rem;
+        letter-spacing: 0.8px;
+        font-size: var(--font-size-small);
+    }
+
+    #logoutAccountButton, #deleteAccountButton {
+        align-self: flex-start;
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+        align-items: center;
+        justify-content: center; 
+        border-width: 0px;
+        background-color: white;   
+        font-weight: var(--font-weight-bold);
+        color: var(--error-color);   
+    }
+
+    #logoutAccountForm {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .Buttons {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .Buttons > *:nth-child(1) {
+        font-weight: var(--font-weight-bold);
+        color: var(--success-color);
+    }
+
+    .Buttons > *:nth-child(2) {
+        font-weight: var(--font-weight-bold);
+        color: var(--error-color);
+    }
+
+    .Invitations {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+        width: 100%;
+        height: 100%;
+        overflow-y: scroll;
+    }
+
+    .Invitation {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem;
+        border-bottom: #6B7280 0.5px solid;
+        font-size: var(--font-size-small);
+    }
+
+    .Invitation button {
+        background-color: #10b98100;
+        border-width: 0px;
+    }
+
+    .Error {
+        color: var(--error-color);
+    }
+
+    .Hide {
+        display: none;
+    }
+
+}

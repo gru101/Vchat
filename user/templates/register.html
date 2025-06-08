@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Register</title>
+  <link rel="stylesheet" href="{% static 'css/register.css' %}">
+</head>
+<body>
+  <div class="form-container">
+    <h2 id="formHeader">Register</h2>
+    {% if error %}
+      <p class="error-message Show">{{ error }}</p>
+    {% endif %}
+
+    {% if success %}
+      <p class="success-message Show">{{ success }}</p>
+    {% endif %}
+
+    <form id="registerForm" method="post" action="{% url 'register' %}">
+      {% csrf_token %}
+      <input type="text" id="username" name="username" placeholder="Username" required>
+      <input type="text" id="firstName" name="firstname" placeholder="First Name" required>
+      <input type="text" id="lastName" name="lastname" placeholder="Last Name" required>
+      <input type="password" id="password" name="password" placeholder="Password" required>
+
+      <div class="PasswordChecks Show">
+        <ul>
+            <li id="lengthCheck" class="error-message">Password must be at least 8 characters long.</li>
+            <li id="upperCaseCheck" class="error-message">Password must contain at least 3 uppercase letter.</li>
+            <li id="lowerCaseCheck" class="error-message">Password must contain at least 3 lowercase letter.</li>
+            <li id="numberCheck" class="error-message">Password must contain at least 1 number.</li>
+            <li id="spCheck" class="error-message">Password must contain at least 1 special character.</li>
+        </ul>    
+    </div>
+
+      <button type="submit">Register</button>
+    </form>
+    
+    <div class="link">
+      Already have an account? <a href="{% url 'login' %}">Login</a>
+    </div>
+  </div>
+
+  <script src="{% static 'js/register.js' %}"></script>
+</body>
+</html>
