@@ -269,11 +269,14 @@ socket.onmessage = async (e) => {
 if (acceptCall) {
     acceptCall.addEventListener("click", async (e) => {
         try {
+            await initMedia(); // Initialize media first
+            
             isCallActive = true;
-            isInCall = true; 
-            await Offer(username, receiver_username);
+            isInCall = true;
+            
             incomingCallDialog.close();
-            await initMedia();
+            
+            await Offer(username, receiver_username);
             
             socket.send(JSON.stringify({
                 'type': 'call_accepted',
@@ -285,11 +288,10 @@ if (acceptCall) {
                 FriendList.classList.add("Hide");
                 CallSection.classList.remove("Hide");
                 CallControls.classList.remove("Hide");
+                main.classList.add("Hide");
             }
         } catch (error) {
             console.error("Error accepting call:", error);
-            isCallActive = false;
-            isInCall = false; // Reset busy state on error
             cleanupCall();
         }
     });
@@ -416,15 +418,28 @@ pc.ontrack = (event) => {
     remoteVideo.srcObject = event.streams[0];
 };
 
+let isCallActive = false;
+let isCallInitiator = false;
+let isInCall = false;
 let localStream = null;
+let videoTrack = null;
+let audioTrack = null;
+
 let userMediaConfig = { video: true, audio: true }
 async function initMedia() {
     try {
-        userMediaConfig['video'] = true;
-        userMediaConfig['audio'] = true;
-        localStream = await navigator.mediaDevices.getUserMedia(userMediaConfig);
+        if (localStream) {
+            localStream.getTracks().forEach(track => track.stop());
+        }
+        
+        localStream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: true
+        });
+        
         localVideo.srcObject = localStream;
-
+        await localVideo.play().catch(e => console.log("Play error:", e));
+        
         // Add tracks to RTCPeerConnection
         localStream.getTracks().forEach(track => {
             pc.addTrack(track, localStream);
@@ -433,30 +448,8 @@ async function initMedia() {
         updateTracks();
         CallControls.classList.remove("Hide");
     } catch (err) {
-        console.error("Media access denied or error:", String(err.message));
-        
-        // if (err.name === 'NotReadableError' || err.message.includes('Device in use')) {
-        //     console.log("Device in use, falling back to sample video");
-        //     localVideo.src = '/static/video/sample.mp4';
-        //     localVideo.loop = true;
-        //     localVideo.muted = true;
-            
-        //     try {
-        //         await localVideo.play();
-        //         // Create a MediaStream from the video element
-        //         localStream = localVideo.captureStream();
-        //         // Add tracks to RTCPeerConnection
-        //         localStream.getTracks().forEach(track => {
-        //             pc.addTrack(track, localStream);
-        //         });
-        //         updateTracks();
-        //         CallControls.classList.remove("Hide");
-        //     } catch (playError) {
-        //         console.error("Error playing sample video:", playError);
-        //     }
-        // } else {
-        //     alert("Could not access camera and microphone");
-        // }
+        console.error("Media access denied or error:", err.message);
+        throw err; // Propagate error for proper handling
     }
 }
 
@@ -529,83 +522,98 @@ async function answer(offer, sender, receiver) {
 FriendList.addEventListener("submit", async (e) => {
     if (e.target.classList.contains("Friend")) {
         e.preventDefault();
+        
+        if (isInCall) {
+            alert("You are already in a call!");
+            return;
+        }
+
         const formData = new FormData(e.target);
-        let obj = {};
-        formData.forEach((value, key) => { obj[key] = value; });
-        receiver_username = obj.username;
+        receiver_username = formData.get('username');
         
         if (!online_users.includes(receiver_username)) {
             alert(`${receiver_username} is offline`);
             return;
         }
 
-        console.log(`Initiating call to: ${receiver_username}`);
-        isCallInitiator = true;
-        socket.send(JSON.stringify({
-            'type': 'incoming_call',
-            'sender': username,
-            'receiver': receiver_username,
-        }));
+        try {
+            await initMedia(); // Initialize media before sending call request
+            isCallInitiator = true;
+            
+            socket.send(JSON.stringify({
+                'type': 'incoming_call',
+                'sender': username,
+                'receiver': receiver_username,
+            }));
+        } catch (error) {
+            console.error("Error initiating call:", error);
+            cleanupCall();
+            alert("Could not access camera/microphone");
+        }
     }
 });
 
-let videoTrack = null;
-let audioTrack = null;
-
-function updateTracks(){
+function updateTracks() {
     if (localStream) {
         videoTrack = localStream.getTracks().find(track => track.kind === 'video');
         audioTrack = localStream.getTracks().find(track => track.kind === 'audio');
+        
+        if (videoTrack) {
+            camera.classList.remove('disabled');
+            camera.querySelector('img').src = '/static/img/camera.svg';
+        }
+        
+        if (audioTrack) {
+            mic.classList.remove('disabled');
+            mic.querySelector('img').src = '/static/img/mic.svg';
+        }
     }
 }
 
-let isCallActive = false;
-let isCallInitiator = false;
-let isInCall = false;
-
 function cleanupCall() {
-    isCallActive = false;
-    isCallInitiator = false;
-    isInCall = false; // Reset busy state
-    receiver_username = null;
+    try {
+        isCallActive = false;
+        isCallInitiator = false;
+        isInCall = false;
+        receiver_username = null;
 
-    if (localStream) {
-        localStream.getTracks().forEach(track => {
-            track.stop();
-        });
-        localStream = null;
-    }
+        // Cleanup streams
+        if (localStream) {
+            localStream.getTracks().forEach(track => track.stop());
+            localStream = null;
+        }
 
-    // Stop remote stream
-    if (remoteVideo.srcObject) {
-        remoteVideo.srcObject.getTracks().forEach(track => track.stop());
-        remoteVideo.srcObject = null;
-    }
+        if (remoteVideo.srcObject) {
+            const tracks = remoteVideo.srcObject.getTracks();
+            tracks.forEach(track => track.stop());
+            remoteVideo.srcObject = null;
+        }
 
-    // Reset video elements
-    localVideo.srcObject = null;
-    remoteVideo.srcObject = null;
-    
-    // Reset call state
-    isCallActive = false;
-    isCallInitiator = false;
-    receiver_username = null;
+        localVideo.srcObject = null;
+        
+        // Reset UI
+        if (window.matchMedia("(max-width: 427px)").matches) {
+            CallSection.classList.add("Hide");
+            CallControls.classList.add("Hide");
+            FriendList.classList.remove("Hide");
+            main.classList.remove("Hide");
+        }
+        
+        // Reset peer connection
+        if (pc) {
+            pc.close();
+            pc = new RTCPeerConnection({
+                iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+            });
+            setupPeerConnectionListeners();
+        }
 
-    // Reset UI for mobile
-    if (window.matchMedia("(max-width: 427px)").matches) {
-        CallSection.classList.add("Hide");
-        CallControls.classList.add("Hide");
-        FriendList.classList.remove("Hide");
-        main.classList.remove("Hide");
-    }
-    
-    // Reset peer connection
-    if (pc) {
-        pc.close();
-        pc = new RTCPeerConnection({
-            iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
-        });
-        setupPeerConnectionListeners();
+        // Reset tracks
+        videoTrack = null;
+        audioTrack = null;
+        
+    } catch (error) {
+        console.error("Error in cleanupCall:", error);
     }
 }
 
