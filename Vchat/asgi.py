@@ -18,10 +18,10 @@ from Vchat.routing import websocket_urlpatterns
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Vchat.settings')
 django.setup()
 
-application = get_asgi_application()
+django_asgi_app = get_asgi_application()
 
 application = ProtocolTypeRouter({
-    "http": application,
+    "http": django_asgi_app,
     "websocket": AllowedHostsOriginValidator(
                     AuthMiddlewareStack(
                         URLRouter(websocket_urlpatterns)
